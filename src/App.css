@@ -1,0 +1,302 @@
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('./assets/fonts/JetBrainsMono-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('./assets/fonts/JetBrainsMono-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('./assets/fonts/JetBrainsMono-Italic.woff2') format('woff2');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('./assets/fonts/JetBrainsMono-BoldItalic.woff2') format('woff2');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+:root {
+    --color-bg-hard: #1d2021;
+    --color-bg-main: #282828;
+    --color-bg-soft: #3c3836;
+    --color-border: #504945;
+
+    --color-text-main: #ebdbb2;
+    --color-text-muted: #a89984;
+    --color-text-inverse: #282828;
+
+    --color-text-red: #fb4934;
+    --color-text-green: #b8bb26;
+    --color-text-yellow: #fabd2f;
+    --color-text-blue: #83a598;
+    --color-text-purple: #d3869b;
+    --color-text-aqua: #8ec07c;
+    --color-text-orange: #fe8019;
+
+    font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+    font-weight: 400;
+
+    color: var(--color-text-main);
+    background-color: var(--color-bg-main);
+
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-text-size-adjust: 100%;
+}
+
+* {box-sizing: border-box;}
+
+.container {
+    margin: 0;
+    padding: 20px;
+    height: calc(100vh - 20px);
+    display: flex;
+    flex-grow: 1;
+    flex-direction: row;
+    gap: 20px;
+    justify-content: center;
+}
+
+@media screen and (max-width: 768px) {
+    .container {
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+}
+
+
+.code-editor {
+    flex: 1.2;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 150px;
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-main);
+    border-radius: 4px;
+}
+
+.syntax-layer,
+.input-layer {
+    font-family: 'JetBrains Mono', 'Menlo', 'Consolas', monospace;
+    font-size: 16px;
+    line-height: 1.5;
+    padding: 10px;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    white-space: pre-wrap;
+    overflow-wrap: break-word; 
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: transparent;
+    border: none;
+}
+
+.syntax-layer {
+    z-index: 1;
+    color: var(--color-text-main);
+    pointer-events: none;
+    overflow: hidden; 
+}
+
+.input-layer {
+    z-index: 2;
+    color: transparent;
+    caret-color: var(--color-text-yellow);
+    caret-shape: block;
+    resize: none;
+    outline: none;
+    overflow: auto; 
+}
+
+.submit {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+    z-index: 9999;
+}
+
+.submit:disabled {
+    cursor: not-allowed;
+    color: var(--color-text-muted);
+    border-color: var(--color-border);
+    background-color: var(--color-bg-hard);
+}
+
+.code-output {
+    flex: 0.8;
+    display: flex;
+    flex-direction: column; 
+    height: 100%;
+
+    /* this keeps it from expanding when the output is too long
+    ... make it make sense css*/
+    min-height: 0;
+}
+
+.output-label {
+    color: var(--color-text-muted);
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 8px;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.code-output-console {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-break: break-all;
+    
+    font-family: 'JetBrains Mono', 'Menlo', 'Consolas', monospace;
+    font-size: 16px;
+    line-height: 1.5;
+    
+    border-radius: 4px;
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid var(--color-border);
+    background-color: var(--color-bg-hard); 
+    
+    overflow-y: auto; 
+    min-height: 0;
+
+    tab-size: 4;
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    hyphens: none;
+}
+
+.blinking-cursor {
+    color: var(--color-text-yellow);
+    font-weight: bold;
+    animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+    50% { opacity: 0; }
+}
+
+.token-keyword {
+    color: var(--color-text-red);
+    font-weight: bold;
+}
+
+.token-string {
+    color: var(--color-text-green);
+}
+
+.token-number {
+    color: var(--color-text-purple);
+}
+
+.token-comment {
+    color: var(--color-text-muted);
+    font-style: italic;
+}
+
+.token-symbol {
+    color: var(--color-text-orange); /* For brackets/operators if needed */
+}
+
+.logo {
+    height: 6em;
+    padding: 1.5em;
+    will-change: filter;
+    transition: 0.75s;
+}
+
+a {
+    font-weight: 500;
+    color: var(--color-text-blue);
+    text-decoration: inherit;
+}
+
+a:hover {
+    color: var(--color-text-green);
+}
+
+h1 {
+    text-align: center;
+}
+
+input,
+button {
+    border-radius: 8px;
+    border: 1px solid transparent;
+    padding: 0.6em 1.2em;
+    font-size: 1em;
+    font-weight: 500;
+    font-family: inherit;
+    color: var(--color-text-main);
+    background-color: var(--color-bg-soft);
+    transition: all 0.25s;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+}
+
+button {
+  cursor: pointer;
+}
+
+button:hover:not(:disabled) {
+  border-color: var(--color-text-yellow);
+}
+button:active:not(:disabled) {
+  border-color: var(--color-text-yellow);
+  background-color: var(--color-border);
+}
+
+input,
+button {
+  outline: none;
+}
+
+#greet-input {
+  margin-right: 5px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color: var(--color-text-main);
+    background-color: var(--color-bg-main);
+  }
+
+  a:hover {
+    color: var(--color-text-blue);
+  }
+
+  input,
+  button {
+    color: var(--color-text-main);
+    background-color: var(--color-bg-soft);
+  }
+  button:active:not(:disabled) {
+    background-color: var(--color-border);
+  }
+}
